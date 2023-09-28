@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import { useEffect, useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
@@ -6,7 +6,8 @@ import { FaShoppingCart } from "react-icons/fa";
 import { getGame } from "@/libs/apis";
 import CarouselSlider from "@/components/CarouselSlider/CarouselSlider";
 import { Game } from "@/models/game";
-// import { useAppDispatch } from "@/hooks/storeHook";
+import { useAppDispatch } from "@/hooks/storeHooks";
+import { addItemToCart } from "@/redux/features/cartSlice";
 // import { addItemToCart } from "@/redux/features/cartSlice";
 
 const GameDetailsClient = (props: {
@@ -19,7 +20,7 @@ const GameDetailsClient = (props: {
   const [price, setPrice] = useState(0);
   const [gameDetails, setGameDetails] = useState<Game>();
 
-  //   const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     const fetchGameDetails = async () => {
       const game = await getGame(slug);
@@ -46,7 +47,7 @@ const GameDetailsClient = (props: {
 
   const handleAddToCart = () => {
     if (!gameDetails) return;
-    // dispatch(addItemToCart({ ...gameDetails, quantity }));
+    dispatch(addItemToCart({ ...gameDetails, quantity }));
   };
   return (
     <div>
