@@ -2,15 +2,15 @@
 
 import { FC, useEffect, useState } from "react";
 import { RiCloseLine } from "react-icons/ri";
-// import axios from 'axios';
+import axios from "axios";
 
 import { useAppDispatch, useAppSelector } from "../../hooks/storeHooks";
-// import { useSession } from 'next-auth/react';
+import { useSession } from "next-auth/react";
 import { removeItemFromCart, toggleCart } from "@/redux/features/cartSlice";
 import Image from "next/image";
 import useCartTotals from "@/hooks/useCartTotals";
-// import useCartTotals from '@/hooks/useCartTotals';
-// import { getStripe } from '@/libs/loadStripe';
+import stripe from "stripe";
+import { getStripe } from "@/libs/loadStripe";
 
 const Cart: FC = () => {
   const { showCart, cartItems } = useAppSelector((state) => state.cart);
@@ -18,25 +18,25 @@ const Cart: FC = () => {
 
   const { totalPrice } = useCartTotals();
 
-  //   const { data: session } = useSession();
+  const { data: session } = useSession();
 
   const dispatch = useAppDispatch();
 
   const handleRemoveItem = (id: string) =>
     dispatch(removeItemFromCart({ _id: id }));
   const checkoutHandler = async () => {
-    // const stripe = await getStripe();
+    const stripe = await getStripe();
 
-    // const { data } = await axios.post("/api/stripe", {
-    //   cartItems,
-    //   userEmail: session?.user?.email,
-    // });
+    const { data } = await axios.post("/api/stripe", {
+      cartItems,
+      userEmail: session?.user?.email,
+    });
 
-    // if (!data) return;
+    if (!data) return;
 
     localStorage.removeItem("cart");
 
-    // stripe.redirectToCheckout({ sessionId: data.id });
+    stripe.redirectToCheckout({ sessionId: data.id });
   };
 
   useEffect(() => {

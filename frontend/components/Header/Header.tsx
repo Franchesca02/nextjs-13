@@ -7,7 +7,7 @@ import { useAppDispatch } from "@/hooks/storeHooks";
 import useCartTotals from "@/hooks/useCartTotals";
 import Signup from "../Signup/Signup";
 import { useState } from "react";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, useSession, signOut } from "next-auth/react";
 
 const Header = () => {
   const {
@@ -70,24 +70,34 @@ const Header = () => {
                 </button>
               </li>
               <li className="flex items-center justify-center h-7">
-                <Link href="/orders" className={orders}>
-                  Orders
-                </Link>
-                <button className={logoutBtn}>Logout</button>
-                <button onClick={toggleForm} className={signupBtn}>
-                  Sign up
-                </button>
-                <button onClick={signinHandler} className={signinBtn}>
-                  Sign in
-                  <FcGoogle
-                    style={{
-                      fontSize: "25px",
-                      cursor: "pointer",
-                      marginLeft: "12px",
-                    }}
-                    className={link}
-                  />
-                </button>
+                {session?.user && (
+                  <>
+                    <Link href="/orders" className={orders}>
+                      Orders
+                    </Link>
+                    <button onClick={() => signOut()} className={logoutBtn}>
+                      Logout
+                    </button>
+                  </>
+                )}
+                {!session?.user && (
+                  <>
+                    <button onClick={toggleForm} className={signupBtn}>
+                      Sign up
+                    </button>
+                    <button onClick={signinHandler} className={signinBtn}>
+                      Sign in
+                      <FcGoogle
+                        style={{
+                          fontSize: "25px",
+                          cursor: "pointer",
+                          marginLeft: "12px",
+                        }}
+                        className={link}
+                      />
+                    </button>
+                  </>
+                )}
               </li>
             </ul>
           </nav>

@@ -4,6 +4,8 @@
 import GameDetailsClient from "@/components/GameDetails/GameDetailsClient";
 import GameDetailsServer from "@/components/GameDetails/GameDetailsServer";
 import { getGame } from "@/libs/apis";
+import axios from "axios";
+import { useEffect } from "react";
 
 const GameItem = (props: { params: { slug: string } }) => {
   const {
@@ -11,6 +13,16 @@ const GameItem = (props: { params: { slug: string } }) => {
   } = props;
   // const gameDetails = await getGame(slug);
 
+  useEffect(() => {
+    const fetchGame = async () => {
+      try {
+        const game = await axios.get(`/api/games/${slug}`);
+        console.log(game);
+        return game;
+      } catch (error) {}
+    };
+    fetchGame();
+  }, []);
   return (
     <GameDetailsClient slug={slug}>
       <GameDetailsServer slug={slug} />
