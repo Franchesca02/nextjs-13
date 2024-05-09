@@ -2,6 +2,7 @@
 
 import { Category } from "@/models/category";
 import sanityClient from "./sanity";
+// import sanityClient from "@sanity/client";
 import { Game, GameSubset } from "@/models/game";
 import axios from "axios";
 
@@ -112,7 +113,7 @@ export const getGame = async (slug: string): Promise<Game> => {
   }`;
 
   const game: Game = await sanityClient.fetch({ query, params: { slug } });
-
+  // console.log(query, game);
   return game;
 };
 
