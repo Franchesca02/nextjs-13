@@ -40,7 +40,7 @@ const CarouselSlider: FC<CarouselSliderProps> = (props) => {
     }, interval);
 
     return () => clearInterval(timer);
-  }, [interval, currentImageIndex]);
+  }, [interval, currentImageIndex, goToNextImage]);
 
   return (
     <div className={classNames.container}>

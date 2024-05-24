@@ -22,7 +22,7 @@ const GameItem = (props: { params: { slug: string } }) => {
       } catch (error) {}
     };
     fetchGame();
-  }, []);
+  }, [slug]);
   return (
     <GameDetailsClient slug={slug}>
       <GameDetailsServer slug={slug} />
